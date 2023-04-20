@@ -29,7 +29,7 @@ export default {
 
 <template>
 
-<div class="row mb-5">
+<div class="row mb-5 justify-content-evenly">
 
     <div class="col-auto w-50">
         <input type="text" placeholder="Write a title" class="w-100" v-model="store.filmTitle">

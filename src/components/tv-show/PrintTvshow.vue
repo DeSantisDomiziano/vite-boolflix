@@ -7,23 +7,30 @@
     }
 </script>
 
+
+
+
+
 <template>
     
-    <ul>
+    <ul class="row row-cols-3">
         <li v-for="TVshow in TVshows" class="pb-4">
-            <h2 class="fw-bold">
-                {{ TVshow.original_name }} 
-                <img
-                    :src="`https://flagcdn.com/16x12/${TVshow.original_language}.png`"
-                    :srcset="`https://flagcdn.com/32x24/${TVshow.original_language}.png`"      
-                    width="16"
-                    height="12"
-                    :alt="TVshow.original_name">
-            </h2>
-            <h3>{{ TVshow.name}}</h3>
-            <p>{{ TVshow.vote_average.toFixed(2) }}</p>
-            <hr>
-            </li>
+            <div class="crad">
+                <div class="card-img-top">
+                    <img :src="`https://image.tmdb.org/t/p/w780${TVshow.poster_path}`" alt="">
+                </div>
+                <div class="crad-body">
+                    <h2 class="fw-bold">
+                        {{ TVshow.original_name }} 
+                    </h2>
+                    <h4>
+                        {{ TVshow.name}}
+                        <img :alt="TVshow.original_language" height="32" :src="`https://cdn.ipregistry.co/flags/emojitwo/${TVshow.original_language}.svg`"/>
+                    </h4>
+                    <p>{{ TVshow.vote_average.toFixed(2) }}</p>
+                </div>
+            </div>
+        </li>
     </ul>
 </template>
 
