@@ -1,22 +1,24 @@
 <script >
-import InputFilm from './components/film/InputFilm.vue'
-import InputTvshow from './components/tv-show/InputTvshow.vue'
+import SiteHeader from './components/SiteHeader.vue'
+import SiteMain from './components/SiteMain.vue'
 export default {
   components: {
-    InputFilm,
-    InputTvshow,
+    SiteHeader,
+    SiteMain
   },
 }
 </script>
 
 <template>
 
-<div class="container pt-5">
-  
-  <InputFilm/>
-  <InputTvshow/>
 
-</div>
+
+  <SiteHeader/>
+  <SiteMain/>
+  
+
+
+
 
 </template>
 
