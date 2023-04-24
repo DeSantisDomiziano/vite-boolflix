@@ -6,7 +6,12 @@ export default {
         return {
             store
         }
-    }
+    },
+    methods: {
+            getImageUrl(name) {
+                return new URL(`../assets/img/${name}.png`, import.meta.url).href
+            }
+        } 
 }
 </script>
 
@@ -35,9 +40,9 @@ export default {
                                     titolo: {{ item.title }}
                                 </h3>
                                 <h5>
-                                    titolo originale:{{ item.original_title }}
+                                    titolo originale: {{ item.original_title }}
                                 </h5>
-                                
+                                 <hr>
                             </div>
                             <div v-else>
                                 <h3>
@@ -46,13 +51,21 @@ export default {
                                 <h5>
                                     {{ item.original_name }}
                                 </h5>
+                                <hr>
                             </div>
+                            
+                            <p>{{ item.overview }}</p>
+                            <hr>
 
                             <span>voto: {{ item.vote_average }}</span>
                             <div class="my-1">
-                                <span>
-                                    <strong>Lingua:    <img :alt="item.original_language" width="32" :src="`https://cdn.ipregistry.co/flags/emojitwo/${item.original_language}.svg`"/></strong>
-                                </span>
+                                <p class="float-start me-3">
+                                    <strong>
+                                        Lingua: 
+                                        
+                                    </strong>
+                                </p>
+                                <img :src="getImageUrl(item.original_language)" width="24">
                                 
                             </div> 
                         </div>
@@ -78,6 +91,11 @@ section {
         color: #eaeaea;
         font-size: 4.5rem;
         font-weight: bold;
+    }
+
+    hr {
+        border: 1px solid #fff;
+        filter: blur(2px);
     }
 
     .cards {
@@ -114,7 +132,7 @@ section {
         }
         .back {
             border: 5px solid #dc1a28;
-            padding: 2.5rem 1rem;
+            padding: 0.25rem;
             position: absolute;
             top: 0;
             left: 0;
@@ -124,6 +142,15 @@ section {
             backface-visibility: hidden;
             transform: rotateY(180deg);
             transition: 0.5s;
+            overflow-y: auto;
+
+            p {
+                margin-top: 0.75rem;
+            }
+
+            img {
+                object-fit: contain;
+            }
         }
 
         &:hover .back {
