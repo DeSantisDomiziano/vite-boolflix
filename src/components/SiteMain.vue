@@ -29,8 +29,15 @@ export default {
                 
                     <div class="cards col-4 py-5" v-for="item in items.results">
 
-                        <div class="front">
+                        <div class="front" v-if="item.poster_path !== null">
                             <img :src="`https://image.tmdb.org/t/p/w780${item.poster_path}`" alt="">
+                        </div>
+                        <div class="front img_none" v-else>
+                            <h3>
+                                POSTER <br> 
+                                IMAGE <br>
+                                BROKE <br>
+                            </h3>
                         </div>
 
                         <div class="back">
@@ -57,7 +64,22 @@ export default {
                             <p>{{ item.overview }}</p>
                             <hr>
 
-                            <span>voto: {{ item.vote_average }}</span>
+                            <span>
+                                voti: {{ item.vote_count }}
+                            </span>
+
+                            <div class="stars-outer w-100">
+                                <font-awesome-icon icon="fa-solid fa-star"
+                                 style="color: #8f8f8f;" 
+                                 v-for="uno in 5"/>
+                                {{ (item.vote_average / 2).toFixed(1) }}
+                                
+                                <div class="stars-inner w-75">
+                                    <font-awesome-icon icon="fa-solid fa-star"
+                                    style="color: #ffd700;"
+                                    v-for="uno in 5"/>
+                                </div>
+                            </div>
                             <div class="my-1">
                                 <p class="float-start me-3">
                                     <strong>
@@ -115,6 +137,10 @@ section {
             object-fit: cover
         }
 
+        .img_none {
+            background-color: #1d1d1d;
+            border: 5px solid #dc1a28;
+        }
 
         .front {
             position: absolute;
@@ -125,6 +151,19 @@ section {
             backface-visibility: hidden;
             transform: rotateY(0deg);
             transition: 0.5s;
+
+            h3 {
+                position: absolute;
+                top: 0%;
+                left: 50%;
+                transform: translate(-50%);
+                font-size: 3.5rem;
+                font-weight: bolder;
+                line-height: 2;
+                text-align: center;
+                color: #d9d7d7;
+
+            }
         }
 
         &:hover .front {
@@ -156,6 +195,18 @@ section {
         &:hover .back {
             transform: rotateY(0deg);
         }
+    }
+
+    .stars-outer {
+        position: relative;
+    }
+
+    .stars-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
 }
