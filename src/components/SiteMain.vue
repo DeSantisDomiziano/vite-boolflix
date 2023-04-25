@@ -1,5 +1,6 @@
 <script>
 import {store} from '../store'
+import axios from 'axios'
 export default {
     name: 'SiteMain',
     data() {
@@ -10,8 +11,30 @@ export default {
     methods: {
             getImageUrl(name) {
                 return new URL(`../assets/img/${name}.png`, import.meta.url).href
+            }, 
+
+            startMovie() {
+                const movieUrl = `${store.SearchMovie_UrlAPI}&query=star`
+                return axios.get(movieUrl)
+            },
+
+            startTvshow() {
+                const tvshoweUrl = `${store.SearchTv_UrlAPI}&query=game`
+                return axios.get(tvshoweUrl)
+            },
+
+            startAllResults() {
+                Promise
+                .all([this.startMovie(), this.startTvshow()])
+                .then(([movies, tvshows]) => {
+                    store.allResults.movies = movies.data
+                    store.allResults.tvshows = tvshows.data
+                })
             }
-        } 
+    },
+    mounted () {
+        this.startAllResults()
+    } 
 }
 </script>
 
@@ -22,7 +45,7 @@ export default {
 <template>
     
     <section v-for="(items, title) in store.allResults" class="pb-5">
-        <div class="container-fluid px-5 mx-5">
+        <div class="container-fluid px-1 mx-5">
             <h2 class="text-uppercase text-center">{{ title }}</h2>
 
             <div v-if="items" class="row g-5">
@@ -65,21 +88,32 @@ export default {
                             <hr>
 
                             <span>
-                                voti: {{ item.vote_count }}
+                                voti: {{ item.vote_count }} <br>
                             </span>
 
-                            <div class="stars-outer w-100">
+                            <div class="float-start me-2">
+                                Media: 
+                            </div>
+
+                            <div class="stars-outer float-start me-2">
                                 <font-awesome-icon icon="fa-solid fa-star"
                                  style="color: #8f8f8f;" 
                                  v-for="uno in 5"/>
-                                {{ (item.vote_average / 2).toFixed(1) }}
                                 
-                                <div class="stars-inner w-75">
+                                <div class="stars-inner" 
+                                :style="`width: ${(item.vote_average.toFixed(2) * 10).toFixed(0)}%;`">
                                     <font-awesome-icon icon="fa-solid fa-star"
                                     style="color: #ffd700;"
                                     v-for="uno in 5"/>
                                 </div>
                             </div>
+
+                            <div>
+                               {{ (item.vote_average / 2).toFixed(1) }} 
+                                
+                            </div>
+
+
                             <div class="my-1">
                                 <p class="float-start me-3">
                                     <strong>
@@ -109,10 +143,15 @@ section {
     color: #ffffff;
     min-height: 45vh;
 
+    .container-fluid {
+        width: 92vw !important;
+    }
+
     h2 {
         color: #eaeaea;
         font-size: 4.5rem;
         font-weight: bold;
+
     }
 
     hr {
@@ -199,13 +238,17 @@ section {
 
     .stars-outer {
         position: relative;
+        display: inline-block;
+        width: 90px;
     }
 
     .stars-inner {
+        display: block;
         position: absolute;
         top: 0;
         left: 0;
         white-space: nowrap;
+        padding-right: 1.25rem;
         overflow: hidden;
     }
 
